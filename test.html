@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root2"></div>
+    <div id="root3"></div>
+    <div id="root4"></div>
+    <script type="text/babel">
+     class TimeStamp extends React.Component {
+         constructor(props) {
+             super(props);
+             this.state = { rawTime: true }
+             this.toggleStyle = this.toggleStyle.bind(this);
+         }
+         render() {
+             return <span onClick={this.toggleStyle}>{this.state.rawTime ? this.props.date.getTime() : this.props.date.toLocaleTimeString()}</span>
+         }
+         toggleStyle() {
+             this.setState(prevState => ({rawTime: !prevState.rawTime}))
+         }
+     }
+     function CurrentTimeStamp(props) {
+         return <TimeStamp date={new Date()} />
+     }
+     class MovingTimeStamp extends React.Component {
+         constructor(props) {
+             super(props)
+             this.state = {date: new Date() }
+         }
+         render() {
+             return <TimeStamp date={this.state.date} />
+         }
+         // Standard react lifecycle function
+         componentDidMount() {
+             console.log("hello")
+             this.timerId = setInterval(() => this.tick(), 1000);
+         }
+         // Standard react lifecycle function
+         componentWillUnmount() {
+             clearInterval(this.timerId);
+             console.log("bye")
+         }
+         // My own function
+         tick() {
+             this.setState({date: new Date()});
+         }
+     }
+     function FoodWithReason(props) {
+         if (props) {
+             return <div>{props.name}, I need to make breakfast because it is <CurrentTimeStamp/>, yes <MovingTimeStamp/></div>
+         } else {
+             return <div>I need to make breakfast because it is <CurrentTimeStamp/>.</div>
+         }
+     }
+     
+     function FoodList(props) {
+         const names = ["Reader", "Moo", "Bah"];
+         const foods = names.map((name) => <FoodWithReason key={name} name={name} />);
+         
+         return <div>{foods}</div>
+     }
+     
+     function WelcomePage(props) {
+         return <div>
+    <h1>Hello dear world!</h1>
+    <FoodList/>
+    <p>And again:</p>
+    <FoodList/>
+         </div>
+     }
+     
+     function timeTick() {
+         ReactDOM.render(<WelcomePage />,
+                         document.getElementById('root')
+         );
+     }
+     timeTick();
+     //        setInterval(timeTick, 2400);
+
+    </script>
+    <script type="text/babel">
+      function formatName(user) {
+          return user.firstName + ' ' + user.lastName;
+      }
+
+      const user = {
+          firstName: 'Shar<p>er',
+          lastName: 'Pärez'
+      };
+
+      const element = (
+              <h1 className="foo">
+              Hello, {formatName(user)}!
+          </h1>
+      );
+
+     ReactDOM.render(
+         element,
+         document.getElementById('root2')
+     );
+    </script>
+    <script type="text/babel" >
+     function Clock(props) {
+         return (
+             <div>
+                 <h1>Hello, world!</h1>
+                 <h2>It is {props.date.toLocaleTimeString()}.</h2>
+             </div>
+         );
+     }
+
+     function tick() {
+         ReactDOM.render(
+             <Clock date={new Date()} />,
+             document.getElementById('root3')
+         );
+     }
+
+//     setInterval(tick, 1000);
+    </script>
+
+    <script type="text/babel">
+     class Toggle extends React.Component {
+         constructor(props) {
+             super(props);
+             this.state = {isToggleOn: true};
+
+             // This binding is necessary to make `this` work in the callback
+             this.handleClick = this.handleClick.bind(this);
+         }
+
+         handleClick() {
+             this.setState(prevState => ({
+                 isToggleOn: !prevState.isToggleOn
+             }));
+         }
+
+         render() {
+             return (
+                 <button onClick={this.handleClick}>
+                     {this.state.isToggleOn ? 'ON' : 'OFF'}
+                 </button>
+             );
+         }
+     }
+
+     ReactDOM.render(
+         <Toggle />,
+         document.getElementById('root4')
+     );
+    </script>
+  </body>
+</html>
