@@ -2,7 +2,7 @@ var debug = process.env.NODE_ENV !== "production";
 var webpack = require('webpack');
 var path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, '.');
+var BUILD_DIR = path.resolve(__dirname, 'build-output');
 var APP_DIR = path.resolve(__dirname, '.');
 
 var config = {
@@ -20,7 +20,7 @@ var config = {
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 query: {
-                    presets: ['react', 'es2015', 'react-hmre'],
+                    presets: ['react', 'es2015' /*, 'react-hmre' */],
                     plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy'],
                 }
             }

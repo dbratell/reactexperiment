@@ -2,13 +2,13 @@
   "name": "reactexperiment",
   "version": "1.0.0",
   "description": "Testing Boostrap-React and React and node.js",
-  "main": "index.js",
+  "main": "hello-world.jsx",
   "scripts": {
     "test": "test",
     "dev": "webpack -d --watch",
     "build-dev": "webpack -d",
     "build": "webpack -p",
-    "start": "node_modules/.bin/webpack-dev-server --progress --inline --hot"
+    "start": "node_modules/.bin/webpack-dev-server --progress --inline"
   },
   "keywords": [
     "test"
